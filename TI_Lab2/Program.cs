@@ -144,8 +144,7 @@ namespace TI_Lab2
                         CheckingConditions = false;
                         while (!CheckingConditions)
                         {
-                            uint[] Numb = new uint[3] { 17, 257, 65537 };
-                            q = Numb[rnd.Next(0, 2)];
+                            q = (uint)rnd.Next(10000, 100000);
                             CheckingConditions = IsTheNumberSimple(q);
                         }
                         r = p * q;
@@ -170,6 +169,7 @@ namespace TI_Lab2
 
                     } while (!isOK);
 
+                    Console.WriteLine("Открытый ключ: ({0}, {1})", e, r);
                     arr = AlgorithmRSAEncrypt(e, r, text);
 
                     Console.Write("Зашифрованный текст: { ");
