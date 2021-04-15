@@ -165,7 +165,7 @@ namespace TI_Lab2
                             temp += fi;
                         if (temp == 0)
                             isOK = false;
-                        d = (uint)temp;
+                        d = temp;
 
                     } while (!isOK);
 
