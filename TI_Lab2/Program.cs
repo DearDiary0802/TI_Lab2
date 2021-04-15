@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Linq;
+using System.Numerics;
 
 namespace TI_Lab2
 {
     class Program
     {
-        static bool IsTheNumberSimple(UInt64 Number)
+        static bool IsTheNumberSimple(long Number)
         {
             if (Number < 2)
                 return false;
             if (Number == 2)
                 return true;
-            for (UInt64 i = 2; i < Number; i++)
+            for (int i = 2; i < Math.Sqrt(Number) + 1; i++)
                 if (Number % i == 0)
                     return false;
             return true;
         }
 
-        static bool AreMutuallySimple(uint fi, uint e)
+        static bool AreMutuallySimple(long fi, long e)
         {
             while (fi != e)
             {
@@ -26,10 +27,10 @@ namespace TI_Lab2
                 else
                     fi = fi - e;
             }
-            return (fi == 1) ? true : false;
+            return (fi == 1);
         }
 
-        static (long, long, long) Euclidex(uint a1, uint b1)
+        static (long, long, long) Euclidex(long a1, long b1)
         {
             long a = (long)a1, b = (long)b1, x, y, d;
             long q, r, x1, x2, y1, y2;
@@ -67,28 +68,28 @@ namespace TI_Lab2
             return (x, y, d);
         }
 
-        static uint FastExp(uint a, uint z, uint n)
+        static long FastExp(long a, long z, long n)
         {
-            UInt64 a1 = (UInt64)a, z1 = (UInt64)z, x = 1;
+            long a1 = a, z1 = z, x = 1;
             while (z1 != 0)
             {
                 while (z1 % 2 == 0)
                 {
-                    z1 = (UInt64)(z1 / 2);
-                    a1 = (a1 * a1) % (UInt64)n;
+                    z1 = z1 / 2;
+                    a1 = (a1 * a1) % n;
                 }
                 z1 -= 1;
-                x = (UInt64)(x * a1) % n;
+                x = (x * a1) % n;
             }
             return (uint)x;
         }
 
-        static uint[] AlgorithmRSAEncrypt(uint e, uint r, string sourceText)
+        static long[] AlgorithmRSAEncrypt(long e, long r, string sourceText)
         {
-            uint[] arr = new uint[sourceText.Length];
+            long[] arr = new long[sourceText.Length];
             for (int i = 0; i < sourceText.Length; i++)
                 arr[i] = sourceText[i];
-            uint[] cipherText = new uint[sourceText.Length];
+            long[] cipherText = new long[sourceText.Length];
             for (int i = 0; i < sourceText.Length; i++)
             {
                 cipherText[i] = FastExp(arr[i], e, r);
@@ -97,9 +98,9 @@ namespace TI_Lab2
             return cipherText;
         }
 
-        static string AlgorithmRSADecrypt(uint d, uint r, uint[] cipherText)
+        static string AlgorithmRSADecrypt(long d, long r, long[] cipherText)
         {
-            uint[] temp = new uint[cipherText.Length];
+            long[] temp = new long[cipherText.Length];
             string res = "";
             for (int i = 0; i < cipherText.Length; i++)
             {
@@ -121,12 +122,12 @@ namespace TI_Lab2
                 Console.WriteLine("1. Зашифровать текст, 2. Расшифровать текст");
                 int act = Convert.ToInt32(Console.ReadLine());
 
-                uint p = 0, q = 0, e = 0;
-                uint d = 0, r = 0, fi;
+                long p = 0, q = 0, e = 0;
+                long d = 0, r = 0, fi;
                 string text = "", res = "";
                 bool CheckingConditions = false;
                 Random rnd = new Random();
-                uint[] arr;
+                long[] arr;
                 bool isOK = true;
 
                 if (act == 1)
@@ -137,14 +138,14 @@ namespace TI_Lab2
                     {
                         while (!CheckingConditions)
                         {
-                            p = (uint)rnd.Next(10000, 100000);
+                            p = rnd.Next(10000, 100000);
                             CheckingConditions = IsTheNumberSimple(p);
 
                         }
                         CheckingConditions = false;
                         while (!CheckingConditions)
                         {
-                            q = (uint)rnd.Next(10000, 100000);
+                            q = rnd.Next(10000, 100000);
                             CheckingConditions = IsTheNumberSimple(q);
                         }
                         r = p * q;
@@ -152,7 +153,7 @@ namespace TI_Lab2
                         CheckingConditions = false;
                         while (!CheckingConditions)
                         {
-                            e = (uint)rnd.Next(600, 10000);
+                            e = rnd.Next(600, 10000);
                             CheckingConditions = AreMutuallySimple(fi, e);
                         }
                         var tuple = Euclidex(e, fi);
@@ -183,11 +184,11 @@ namespace TI_Lab2
                 {
                     Console.WriteLine("Введите текст: ");
 
-                    arr = Console.ReadLine().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(i => uint.Parse(i)).ToArray<uint>();
+                    arr = Console.ReadLine().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(i => long.Parse(i)).ToArray<long>();
                     Console.WriteLine("Введите секретный ключ d: ");
-                    d = (uint)Convert.ToUInt64(Console.ReadLine());
+                    d = Convert.ToInt64(Console.ReadLine());
                     Console.WriteLine("Введите cекретный ключ r: ");
-                    r = (uint)Convert.ToUInt64(Console.ReadLine());
+                    r = Convert.ToInt64(Console.ReadLine());
 
                     res = AlgorithmRSADecrypt(d, r, arr);
 
