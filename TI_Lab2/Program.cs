@@ -31,7 +31,7 @@ namespace TI_Lab2
 
         static (long, long, long) Euclidex(long a1, long b1)
         {
-            long a = (long)a1, b = (long)b1, x, y, d;
+            long a = a1, b = b1, x, y, d;
             long q, r, x1, x2, y1, y2;
 
             if (b == 0)
