@@ -80,7 +80,7 @@ namespace TI_Lab2
                 z1 -= 1;
                 x = (x * a1) % n;
             }
-            return (uint)x;
+            return x;
         }
 
         static long[] AlgorithmRSAEncrypt(long e, long r, string sourceText)
