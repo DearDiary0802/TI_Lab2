@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Numerics;
 
 namespace TI_Lab2
 {
@@ -67,9 +68,9 @@ namespace TI_Lab2
             return (x, y, d);
         }
 
-        static long FastExp(long a, long z, long n)
+        static BigInteger FastExp(BigInteger a, BigInteger z, BigInteger n)
         {
-            long a1 = a, z1 = z, x = 1;
+            BigInteger a1 = a, z1 = z, x = 1;
             while (z1 != 0)
             {
                 while (z1 % 2 == 0)
@@ -83,12 +84,12 @@ namespace TI_Lab2
             return x;
         }
 
-        static long[] AlgorithmRSAEncrypt(long e, long r, string sourceText)
+        static BigInteger[] AlgorithmRSAEncrypt(long e, long r, string sourceText)
         {
             long[] arr = new long[sourceText.Length];
             for (int i = 0; i < sourceText.Length; i++)
                 arr[i] = sourceText[i];
-            long[] cipherText = new long[sourceText.Length];
+            BigInteger[] cipherText = new BigInteger[sourceText.Length];
             for (int i = 0; i < sourceText.Length; i++)
             {
                 cipherText[i] = FastExp(arr[i], e, r);
@@ -97,9 +98,9 @@ namespace TI_Lab2
             return cipherText;
         }
 
-        static string AlgorithmRSADecrypt(long d, long r, long[] cipherText)
+        static string AlgorithmRSADecrypt(long d, long r, BigInteger[] cipherText)
         {
-            long[] temp = new long[cipherText.Length];
+            BigInteger[] temp = new BigInteger[cipherText.Length];
             string res = "";
             for (int i = 0; i < cipherText.Length; i++)
             {
@@ -126,7 +127,7 @@ namespace TI_Lab2
                 string text = "", res = "";
                 bool CheckingConditions = false;
                 Random rnd = new Random();
-                long[] arr;
+                BigInteger[] arr;
                 bool isOK = true;
 
                 if (act == 1)
@@ -183,7 +184,7 @@ namespace TI_Lab2
                 {
                     Console.WriteLine("Введите текст: ");
 
-                    arr = Console.ReadLine().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(i => long.Parse(i)).ToArray<long>();
+                    arr = Console.ReadLine().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(i => BigInteger.Parse(i)).ToArray<BigInteger>();
                     Console.WriteLine("Введите секретный ключ d: ");
                     d = Convert.ToInt64(Console.ReadLine());
                     Console.WriteLine("Введите cекретный ключ r: ");
